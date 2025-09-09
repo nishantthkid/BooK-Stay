@@ -1,0 +1,581 @@
+<% layout("/layouts/boilerplate") %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderLust - Sign Up</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background elements */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-elements::before,
+        .floating-elements::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 20s infinite linear;
+        }
+
+        .floating-elements::before {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            animation-delay: -10s;
+        }
+
+        .floating-elements::after {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            right: -100px;
+            animation-delay: -15s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-300px) rotate(360deg); }
+        }
+
+        .signup-container {
+            position: relative;
+            z-index: 10;
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin-top: 70px;
+        }
+
+        .signup-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.3);
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 500px;
+            transform: translateY(0);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #28a745, #20c997);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .signup-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 35px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.4);
+        }
+
+        .brand-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .brand-title h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .brand-title .subtitle {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .form-floating {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-floating .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 1rem 1rem 1rem 3rem;
+            height: auto;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-floating .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .form-floating label {
+            color: #666;
+            left: 3rem;
+            font-weight: 500;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+            color: #667eea;
+            z-index: 5;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-floating .form-control:focus + label + .input-icon,
+        .form-floating .form-control:not(:placeholder-shown) + label + .input-icon {
+            color: #667eea;
+            transform: scale(1.1);
+        }
+
+        .btn-signup {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
+            background: linear-gradient(135deg, #218838, #1ea080);
+        }
+
+        .btn-signup:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-signup:hover:before {
+            left: 100%;
+        }
+
+        .valid-feedback {
+            display: block;
+            color: #28a745;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .invalid-feedback {
+            display: block;
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .form-control.is-valid + .valid-feedback {
+            opacity: 1;
+        }
+
+        .form-control.is-invalid + .invalid-feedback {
+            opacity: 1;
+        }
+
+        .form-control.is-valid {
+            border-color: #28a745;
+        }
+
+        .form-control.is-invalid {
+            border-color: #dc3545;
+        }
+
+        /* Email validation styles */
+        .email-validation {
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+            background: #e9ecef;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .password-strength::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            border-radius: 2px;
+            transition: all 0.5s ease;
+        }
+
+        .password-strength.weak::before {
+            background: linear-gradient(90deg, #dc3545, #ff6b7d);
+            width: 33%;
+            box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
+        }
+
+        .password-strength.medium::before {
+            background: linear-gradient(90deg, #ffc107, #ffda6a);
+            width: 66%;
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+        }
+
+        .password-strength.strong::before {
+            background: linear-gradient(90deg, #28a745, #51cf66);
+            width: 100%;
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.3);
+        }
+
+        .password-strength-text {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .password-strength-text.show {
+            opacity: 1;
+        }
+
+        .password-strength-text.weak {
+            color: #dc3545;
+        }
+
+        .password-strength-text.medium {
+            color: #ffc107;
+        }
+
+        .password-strength-text.strong {
+            color: #28a745;
+        }
+
+        /* Wanderlust theme decorations */
+        .travel-icon {
+            position: absolute;
+            color: rgba(102, 126, 234, 0.1);
+            font-size: 2rem;
+            z-index: 2;
+        }
+
+        .travel-icon.plane {
+            top: 10%;
+            right: 10%;
+            animation: fly 15s infinite linear;
+        }
+
+        .travel-icon.compass {
+            bottom: 15%;
+            left: 8%;
+            animation: spin 20s infinite linear;
+        }
+
+        .travel-icon.mountain {
+            top: 20%;
+            left: 5%;
+            animation: float-up 10s infinite ease-in-out;
+        }
+
+        .travel-icon.camera {
+            top: 60%;
+            right: 5%;
+            animation: float-up 12s infinite ease-in-out reverse;
+        }
+
+        @keyframes fly {
+            0% { transform: translateX(-100px) translateY(0) rotate(0deg); }
+            50% { transform: translateX(50px) translateY(-20px) rotate(5deg); }
+            100% { transform: translateX(100px) translateY(0) rotate(0deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float-up {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 576px) {
+            .signup-card {
+                margin: 1rem;
+                padding: 2rem 1.5rem;
+            }
+
+            .brand-title h1 {
+                font-size: 2rem;
+            }
+
+            .signup-container {
+                padding-top: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="floating-elements"></div>
+    
+    <!-- Travel themed decorative icons -->
+    <i class="fas fa-plane travel-icon plane"></i>
+    <i class="fas fa-compass travel-icon compass"></i>
+    <i class="fas fa-mountain travel-icon mountain"></i>
+    <i class="fas fa-camera travel-icon camera"></i>
+
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="brand-title">
+                <h1><i class="fas fa-globe-americas"></i> WanderLust</h1>
+                <p class="subtitle">Start Your Adventure Today</p>
+            </div>
+
+            <form action="/signup" method="POST" class="needs-validation" novalidate>
+                <div class="form-floating">
+                    <input name="username" id="username" type="text" class="form-control" placeholder="Username" required minlength="3">
+                    <label for="username">Username</label>
+                    <i class="fas fa-user input-icon"></i>
+                    <div class="valid-feedback">
+                        <i class="fas fa-check-circle"></i> Perfect username!
+                    </div>
+                    <div class="invalid-feedback">
+                        <i class="fas fa-exclamation-circle"></i> Username must be at least 3 characters long.
+                    </div>
+                </div>
+
+                <div class="form-floating">
+                    <input name="email" id="email" type="email" class="form-control" placeholder="Email" required>
+                    <label for="email">Email Address</label>
+                    <i class="fas fa-envelope input-icon"></i>
+                    <div class="valid-feedback">
+                        <i class="fas fa-check-circle"></i> Valid email address!
+                    </div>
+                    <div class="invalid-feedback">
+                        <i class="fas fa-exclamation-circle"></i> Please enter a valid email address.
+                    </div>
+                </div>
+
+                <div class="form-floating">
+                    <input name="password" id="password" type="password" class="form-control" placeholder="Password" required minlength="6">
+                    <label for="password">Password</label>
+                    <i class="fas fa-lock input-icon"></i>
+                    <div class="password-strength" id="passwordStrength"></div>
+                    <div class="password-strength-text" id="passwordStrengthText"></div>
+                    <div class="valid-feedback">
+                        <i class="fas fa-check-circle"></i> Strong password!
+                    </div>
+                    <div class="invalid-feedback">
+                        <i class="fas fa-exclamation-circle"></i> Password must be at least 6 characters long.
+                    </div>
+                </div>
+
+                <button class="btn btn-success btn-signup" type="submit">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Create Account
+                </button>
+            </form>
+
+            <div class="login-link">
+                <small class="text-muted">
+                    Already have an account? 
+                    <a href="/login">
+                        <i class="fas fa-sign-in-alt"></i> Login here
+                    </a>
+                </small>
+            </div>
+
+            <div class="text-center mt-3">
+                <small class="text-muted">
+                    <i class="fas fa-shield-alt"></i> 
+                    Your data is secure with us
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            
+            const forms = document.querySelectorAll('.needs-validation');
+            const inputs = document.querySelectorAll('.form-control');
+            const passwordInput = document.getElementById('password');
+            const passwordStrength = document.getElementById('passwordStrength');
+            const emailInput = document.getElementById('email');
+            
+            // Password strength checker
+            function checkPasswordStrength(password) {
+                let strength = 0;
+                if (password.length >= 6) strength++;
+                if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+                if (password.match(/\d/)) strength++;
+                if (password.match(/[^A-Za-z0-9]/)) strength++;
+                
+                return strength;
+            }
+            
+            // Real-time validation for all inputs
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const isValid = this.checkValidity();
+                    
+                    if (this.value.trim() !== '') {
+                        if (isValid) {
+                            this.classList.add('is-valid');
+                            this.classList.remove('is-invalid');
+                        } else {
+                            this.classList.add('is-invalid');
+                            this.classList.remove('is-valid');
+                        }
+                    } else {
+                        this.classList.remove('is-valid', 'is-invalid');
+                    }
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (this.hasAttribute('required') && this.value.trim() === '') {
+                        this.classList.add('is-invalid');
+                        this.classList.remove('is-valid');
+                    }
+                });
+            });
+            
+            // Password strength indicator
+            const passwordStrengthText = document.getElementById('passwordStrengthText');
+            
+            passwordInput.addEventListener('input', function() {
+                const strength = checkPasswordStrength(this.value);
+                passwordStrength.className = 'password-strength';
+                passwordStrengthText.className = 'password-strength-text';
+                
+                if (this.value.length > 0) {
+                    passwordStrengthText.classList.add('show');
+                    if (strength <= 1) {
+                        passwordStrength.classList.add('weak');
+                        passwordStrengthText.classList.add('weak');
+                        passwordStrengthText.textContent = '🔴 Weak - Add more characters';
+                    } else if (strength <= 2) {
+                        passwordStrength.classList.add('medium');
+                        passwordStrengthText.classList.add('medium');
+                        passwordStrengthText.textContent = '🟡 Good - Add numbers or symbols';
+                    } else {
+                        passwordStrength.classList.add('strong');
+                        passwordStrengthText.classList.add('strong');
+                        passwordStrengthText.textContent = '🟢 Strong - Perfect!';
+                    }
+                } else {
+                    passwordStrengthText.classList.remove('show');
+                }
+            });
+            
+            // Form submission validation
+            Array.prototype.slice.call(forms).forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        
+                        form.classList.add('was-validated');
+                        
+                        // Focus on first invalid input
+                        const firstInvalid = form.querySelector(':invalid');
+                        if (firstInvalid) {
+                            firstInvalid.focus();
+                        }
+                    } else {
+                        // Add success animation
+                        const submitBtn = form.querySelector('button[type="submit"]');
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating Account...';
+                        submitBtn.disabled = true;
+                    }
+                }, false);
+            });
+        })();
+    </script>
+</body>
+</html>
